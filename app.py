@@ -320,17 +320,24 @@ with tab_browse:
             papers = grouped[subtopic]
 
             with st.expander(
-                f"{subtopic}  —  {len(papers)} paper(s)",
+                f"{subtopic} — {len(papers)} paper(s)",
                 expanded=True,
             ):
                 for paper_key, paper_ideas in sorted(
                     papers.items(), key=lambda item: item[0][0].lower()
                 ):
                     paper_title, paper_link, paper_year, paper_subtopic = paper_key
-                    paper_box_key = stable_key("paper", paper_title, paper_link, paper_year, paper_subtopic)
+                    paper_box_key = stable_key(
+                        "paper",
+                        paper_title,
+                        paper_link,
+                        paper_year,
+                        paper_subtopic,
+                    )
 
-                    with st.container(border=True):
-                        st.markdown(f"### {paper_title}")
+                    # Only the paper title is visible at first.
+                    # Clicking it opens all details.
+                    with st.expander(paper_title, expanded=False):
                         st.write(f"**Year:** {paper_year}")
                         st.write(f"**Subtopic:** {paper_subtopic}")
 
@@ -350,7 +357,9 @@ with tab_browse:
                                     key=f"new_idea_{paper_box_key}",
                                 )
 
-                                submitted = st.form_submit_button("Save new idea under this paper")
+                                submitted = st.form_submit_button(
+                                    "Save new idea under this paper"
+                                )
 
                                 if submitted:
                                     try:
@@ -418,10 +427,14 @@ with tab_browse:
                                     save_col, delete_col = st.columns(2)
 
                                     with save_col:
-                                        save_changes = st.form_submit_button("Save changes")
+                                        save_changes = st.form_submit_button(
+                                            "Save changes"
+                                        )
 
                                     with delete_col:
-                                        delete_this = st.form_submit_button("Delete idea")
+                                        delete_this = st.form_submit_button(
+                                            "Delete idea"
+                                        )
 
                                     if save_changes:
                                         try:
